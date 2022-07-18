@@ -31,6 +31,7 @@ plugins=(
   ["kafka"]="Kafka"
   ["zipkin"]="Monitor: Zipkin"
   ["pts"]="Monitor: Prometheus"
+  ["kiali"]="Monitor: Kiali"
   ["cloud"]="Cloud: Zero Cloud"
 )
 for name in ${!envs[*]}
