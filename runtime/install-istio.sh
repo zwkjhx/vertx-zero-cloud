@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
+rm -rf istio
 curl -L https://istio.io/downloadIstio | sh -
-mv istio-1.14.1 istio
+mv -f istio-1.14.1 istio
