@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # The bash version must be > 4.x
+bash --version
 <<comment
   1. 基础环境：environment
       kmini:    本地Minicube开发环境
@@ -79,5 +80,7 @@ do
     mkdir -p platform/$lang/$platform
     echo ${platforms[$platform]} > platform/$lang/$platform/README.txt
     echo "(${langs[$lang]})${platforms[$platform]} initialized !"
+    # 执行子脚本
+    ./zcloud-kidd.sh platform/$lang/$platform
   done
 done
