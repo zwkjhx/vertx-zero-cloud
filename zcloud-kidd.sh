@@ -34,7 +34,6 @@ aboves=(
   ["list"]="呈现：列表"
   ["event"]="呈现：事件"
 )
-echo $1
 # 系统
 mkdir -p $1/asset
 for asset in ${!assets[*]}
