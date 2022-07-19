@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-kubectl create namespace tidb-cluster && \
-kubectl -n tidb-cluster apply -f config-tidb-cluster.yaml
+kubectl -n zero-cloud-hotel apply -f config-tidb-cluster.yaml

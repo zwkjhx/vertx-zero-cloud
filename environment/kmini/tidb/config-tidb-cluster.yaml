@@ -4,10 +4,9 @@
 apiVersion: pingcap.com/v1alpha1
 kind: TidbCluster
 metadata:
-  name: basic
+  name: aeon
 spec:
-  # 更新到最新的 TiDB 版本
-  version: v6.1.1
+  version: latest             # 更新到最新的 TiDB 版本
   timezone: UTC
   pvReclaimPolicy: Retain
   enableDynamicConfiguration: true
