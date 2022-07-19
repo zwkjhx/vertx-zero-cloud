@@ -122,6 +122,7 @@
 | Zero App | `ZC_NS`           | 应用APP的名空间。             |
 | Zero App | `ZC_APP`          | 应用APP核心配置文件路径。         |
 | Zero App | `ZC_MODE`         | 应用APP发布模式，五种**环境目录**选一种。       |
+| Zero App | `ZC_LANG`         | 应用APP的语言，保留，三选一，默认cn。|
 | TiDB     | `ZC_TIDB_CLUSTER` | TiDB集群名称。              |
 | TiDB     | `ZC_TIDB_NAME`    | TiDB部署到K8S的名称。         |
 | TiDB     | `ZC_TIDB_STORE`   | TiDB挂载的存储数据文件的路径（物理路径。 |

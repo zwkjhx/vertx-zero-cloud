@@ -1,14 +1,14 @@
 apiVersion: pingcap.com/v1alpha1
 kind: TidbInitializer
 metadata:
-  name: zero-hotel-tidb
-  namespace: zero-cloud-hotel
+  name: $ZC_TIDB_NAME
+  namespace: $ZC_NS
 spec:
   image: tnir/mysqlclient
   # imagePullPolicy: IfNotPresent
   cluster:
-    namespace: zero-cloud-hotel
-    name: zero-hotel-tidb
+    namespace: $ZC_NS
+    name: $ZC_TIDB_NAME
   initSql:
     # create database app;
     # initSqlConfigMap: tidb-initsql

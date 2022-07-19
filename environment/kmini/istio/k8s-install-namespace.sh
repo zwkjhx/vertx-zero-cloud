@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-kubectl create -f install-namespace.yml
+kubectl create -f k8s-install-namespace.yml

@@ -1,7 +1,7 @@
 apiVersion: pingcap.com/v1alpha1
 kind: TidbMonitor
 metadata:
-  name: aeon
+  name: $ZC_TIDB_NAME
 spec:
   replicas: 1
   clusters:

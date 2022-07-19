@@ -4,7 +4,7 @@
 apiVersion: pingcap.com/v1alpha1
 kind: TidbCluster
 metadata:
-  name: aeon
+  name: $ZC_TIDB_CLUSTER
 spec:
   version: latest             # 更新到最新的 TiDB 版本
   timezone: UTC

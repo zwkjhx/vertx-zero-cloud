@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-kubectl -n zero-cloud-hotel apply -f config-tidb-monitor.yaml
+kubectl -n $ZC_NS apply -f config-tidb-monitor.yaml
