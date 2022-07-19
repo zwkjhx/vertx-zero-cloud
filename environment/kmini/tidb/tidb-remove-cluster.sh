@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-kubectl delete tidbmonitor basic -n zero-cloud-hotel && \
-kubectl delete tc basic -n zero-cloud-hotel && \
-kubectl delete pvc -n zero-cloud-hotel -l app.kubernetes.io/instance=basic,app.kubernetes.io/managed-by=tidb-operator
+kubectl delete tidbmonitor $ZC_TIDB_NAME -n $ZC_NS && \
+kubectl delete tc $ZC_TIDB_NAME -n $ZC_NS && \
+kubectl delete pvc -n $ZC_NS -l app.kubernetes.io/instance=$ZC_TIDB_NAME,app.kubernetes.io/managed-by=tidb-operator
