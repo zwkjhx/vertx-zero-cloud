@@ -7,8 +7,8 @@ spec:
   image: tnir/mysqlclient
   # imagePullPolicy: IfNotPresent
   cluster:
+    name: $ZC_TIDB_CLUSTER
     namespace: $ZC_NS
-    name: $ZC_TIDB_NAME
   initSql:
     # create database app;
     # initSqlConfigMap: tidb-initsql

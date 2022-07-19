@@ -5,7 +5,7 @@ metadata:
 spec:
   replicas: 1
   clusters:
-  - name: aeon
+  - name: $ZC_TIDB_CLUSTER
   prometheus:
     baseImage: prom/prometheus
     version: v2.27.1
