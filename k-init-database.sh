@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
+echo "--> 预处理：Database Storage"
 # 数据库专用目录规范
->>comment
+<<comment
   官方推荐四个核心目录:
   1. /ssd,                用于存储TiKV数据
   2. /sharedssd:          用于存储PD数据

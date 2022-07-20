@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-echo "0. 环境预处理！！"
 source .env.development
 <<comment
    初始化执行流程：
@@ -9,15 +8,18 @@ source .env.development
    4. 删除下载的远程代码
 comment
 # --------------------- 环境初始化
+echo "0. 环境预处理！！"
+echo "0.1. 执行目录规范！！"
 ./k-init-database.sh
 ./k-init-cloud.sh
 # --------------------- 远程脚本下载
+echo "1.1. 拉取远程脚本！！"
 cd development
 # 下载代码
 rm -rf vertx-zero-cloud
 git clone https://github.com/silentbalanceyh/vertx-zero-cloud.git
 rm -rf vertx-zero-cloud/.git
-echo "1. 代码下载完成！！"
+echo "1.2. 代码下载完成！！"
 # App 配置拷贝当前目录
 cd ..
 cp -rf development/vertx-zero-cloud/apps/*.yml .

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+echo "--> 预处理：Zero Cloud Platform"
 # 云端专用目录规范
 mkdir -p kzero
 declare -A assets
@@ -39,7 +40,7 @@ for asset in ${!assets[*]}
 do
   mkdir -p kzero/asset/$asset
   echo ${assets[$asset]} > kzero/asset/$asset/README.txt
-  echo "(${assets[$asset]}) initialized !"
+  # echo "(${assets[$asset]}) initialized !"
 done
 # 建模
 mkdir -p kzero/atom
@@ -47,7 +48,7 @@ for atom in ${!atoms[*]}
 do
   mkdir -p kzero/atom/$atom
   echo ${atoms[$atom]} > kzero/atom/$atom/README.txt
-  echo "(${atoms[$atom]}) initialized !"
+  # echo "(${atoms[$atom]}) initialized !"
 done
 # 行为
 mkdir -p kzero/action
@@ -55,7 +56,7 @@ for action in ${!actions[*]}
 do
   mkdir -p kzero/action/$action
   echo ${actions[$action]} > kzero/action/$action/README.txt
-  echo "(${actions[$action]}) initialized !"
+  # echo "(${actions[$action]}) initialized !"
 done
 # 呈现
 mkdir -p kzero/above
@@ -63,10 +64,10 @@ for above in ${!aboves[*]}
 do
   mkdir -p kzero/above/$above
   echo ${aboves[$above]} > kzero/above/$above/README.txt
-  echo "(${aboves[$above]}) initialized !"
+  # echo "(${aboves[$above]}) initialized !"
 done
 
-echo "Configuration Files initialized !"
+# echo "Configuration Files initialized !"
 
 mkdir -p kidd
 echo "生产环境" > kidd/README.txt
@@ -100,5 +101,5 @@ do
   # 每个目录
   mkdir -p deployment/$plugin
   echo ${plugins[$plugin]} > deployment/$plugin/README.txt
-  echo "${plugin} 插件初始化完成 !"
+  # echo "${plugin} 插件初始化完成 !"
 done
