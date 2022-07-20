@@ -4,7 +4,7 @@
 apiVersion: pingcap.com/v1alpha1
 kind: TidbCluster
 metadata:
-  name: $ZC_TIDB_CLUSTER
+  name: $ZC_TIDB
 spec:
   version: latest             # 更新到最新的 TiDB 版本
   timezone: UTC
