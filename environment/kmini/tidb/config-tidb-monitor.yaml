@@ -1,7 +1,7 @@
 apiVersion: pingcap.com/v1alpha1
 kind: TidbMonitor
 metadata:
-  name: $ZC_TIDB-monitor
+  name: $ZC_TIDB
 spec:
   replicas: 1
   clusters:
