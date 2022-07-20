@@ -219,3 +219,28 @@
 <hr/>
 
 ## 7. 运行说明
+
+### 7.1. 脚本命名规范
+
+* `minikube-`：基本环境启动脚本（包括dashboard）。
+* `istio-`：Istio环境安装脚本。
+* `zo-`（Zero Deployment to K8S）脚本：发布组件到K8S的专用脚本。
+* `zp-`（Zero Purge from K8S）脚本：从K8S清除当前组件专用脚本。
+* `zq-`（Zero Query）脚本：查询组件状态专用脚本。
+* 如果该脚本需开放或启动某个端口号，则以端口号名称为文件前缀，如：
+    * `1201-istioctl-kiali.sh`
+    * `1231-minicube-dashboard.sh`
+
+### 7.2. 默认端口
+
+* 1231：Dashboard主端口号。
+* 1201 ~ 1299：辅助工具主端口号。
+* Random：以组件标准为主，如TiDB是4000，程序消费专用端口号。
+
+|端口|类型|说明|
+|---|---|---|
+|1231|Minikube|Minikube Dashboard专用端口号，查看K8S集群专用。|
+|1201|Kaili|Kaili监控平台专用端口号。|
+|1202|TiDB|TiDB Grafana专用端口号。|
+|1203|TiDB|TiDB Prometheus专用端口号。|
+|4000|TiDB|TiDB数据库专用端口号。|
