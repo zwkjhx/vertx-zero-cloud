@@ -2,13 +2,13 @@ apiVersion: pingcap.com/v1alpha1
 kind: TidbInitializer
 metadata:
   name: $ZC_TIDB-initializer
-  namespace: $ZK_NS
+  namespace: $ZC_TIDB_NS
 spec:
   image: tnir/mysqlclient
   # imagePullPolicy: IfNotPresent
   cluster:
     name: $ZC_TIDB
-    namespace: $ZK_NS
+    namespace: $ZC_TIDB_NS
   initSql:
     # create database app;
     # initSqlConfigMap: tidb-initsql
@@ -21,4 +21,4 @@ spec:
   #   requests:
   #     cpu: 100m
   #     memory: 50Mi
-  # timezone: "Asia/Shanghai"
+  timezone: "Asia/Shanghai"

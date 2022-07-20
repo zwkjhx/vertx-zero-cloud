@@ -1,6 +1,0 @@
-Operator:
-https://raw.githubusercontent.com/pingcap/tidb-operator/master/manifests/crd.yaml
-Cluster:
-https://raw.githubusercontent.com/pingcap/tidb-operator/master/examples/basic/tidb-cluster.yaml
-Monitor:
-https://raw.githubusercontent.com/pingcap/tidb-operator/master/examples/basic/tidb-monitor.yaml
