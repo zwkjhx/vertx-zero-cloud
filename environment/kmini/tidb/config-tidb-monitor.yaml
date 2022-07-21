@@ -6,6 +6,9 @@ spec:
   replicas: 1
   clusters:
   - name: $ZC_TIDB
+  persistent: true
+  storageClassName: monitoring-storage
+  storage: 5G
   prometheus:
     baseImage: prom/prometheus
     version: v2.27.1
