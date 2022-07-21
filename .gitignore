@@ -35,3 +35,4 @@ file-uploads
 configs
 zero-tree.txt
 development/istio/*
+deployment

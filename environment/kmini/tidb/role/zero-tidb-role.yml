@@ -1,0 +1,59 @@
+# 此处 namespace 来自于环境变量文件（变量名：$ZC_TIDB_NS）
+# -- 开发配置：.env.development
+# -- 生产配置：.env.production
+---
+# 本配置的清单
+# ServiceAccount                    zero-cloud-tidb-admin
+# ClusterRoleBinding                zero-cloud-tidb-pv-binding
+#                                   zero-cloud-tidb-node-binding
+# ClusterRole                       zero-cloud-tidb-clusterrole
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  # Zero Cloud中的TiDB管理员账号
+  name: zero-cloud-tidb-admin
+  namespace: $ZC_TIDB_NS
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  # Zero Cloud中的TiDB用于 PV 绑定专用角色
+  name: zero-cloud-tidb-pv-binding # local-storage-provisioner-pv-binding
+  namespace: $ZC_TIDB_NS
+subjects:
+- kind: ServiceAccount
+  # Refer: zero-cloud-tidb-admin
+  name: zero-cloud-tidb-admin
+  namespace: $ZC_TIDB_NS
+roleRef:
+  kind: ClusterRole
+  name: system:persistent-volume-provisioner
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  # Zero Cloud中的TiDB用于 Node 的专用角色
+  name: zero-cloud-tidb-clusterrole             # local-storage-provisioner-node-clusterrole
+  namespace: $ZC_TIDB_NS
+rules:
+- apiGroups: [""]
+  resources: ["nodes"]
+  verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  # Zero Cloud中的TiDB用于 Node 绑定专用角色
+  name: zero-cloud-tidb-node-binding            # local-storage-provisioner-node-binding
+  namespace: $ZC_TIDB_NS
+subjects:
+- kind: ServiceAccount
+  # Refer: zero-cloud-tidb-admin
+  name: zero-cloud-tidb-admin
+  namespace: $ZC_TIDB_NS
+roleRef:
+  kind: ClusterRole
+  # Refer: zero-cloud-tidb-clusterrole
+  name: zero-cloud-tidb-clusterrole
+  apiGroup: rbac.authorization.k8s.io

@@ -9,12 +9,6 @@ spec:
   persistent: true
   storageClassName: monitoring-storage
   storage: 5G
-  prometheus:
-    baseImage: prom/prometheus
-    version: v2.27.1
-  grafana:
-    baseImage: grafana/grafana
-    version: 7.5.11
   initializer:
     baseImage: pingcap/tidb-monitor-initializer
     version: v5.4.1
