@@ -1,0 +1,123 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: "monitoring-storage"
+provisioner: "kubernetes.io/no-provisioner"
+volumeBindingMode: "WaitForFirstConsumer"
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: "ssd-storage"
+provisioner: "kubernetes.io/no-provisioner"
+volumeBindingMode: "WaitForFirstConsumer"
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: "shared-ssd-storage"
+provisioner: "kubernetes.io/no-provisioner"
+volumeBindingMode: "WaitForFirstConsumer"
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: "backup-storage"
+provisioner: "kubernetes.io/no-provisioner"
+volumeBindingMode: "WaitForFirstConsumer"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: local-provisioner-config
+  namespace: $ZC_TIDB_NS
+data:
+  setPVOwnerRef: "true"
+  nodeLabelsForPV: |
+    - kubernetes.io/hostname
+  storageClassMap: |
+    ssd-storage:
+      hostDir: $ZC_TIDB_STORE/ssd
+      mountDir: $ZC_TIDB_STORE/ssd
+    shared-ssd-storage:
+      hostDir: $ZC_TIDB_STORE/sharedssd
+      mountDir: $ZC_TIDB_STORE/sharedssd
+    monitoring-storage:
+      hostDir: $ZC_TIDB_STORE/monitoring
+      mountDir: $ZC_TIDB_STORE/monitoring
+    backup-storage:
+      hostDir: $ZC_TIDB_STORE/backup
+      mountDir: $ZC_TIDB_STORE/backup
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: local-volume-provisioner
+  namespace: $ZC_TIDB_NS
+  labels:
+    app: local-volume-provisioner
+spec:
+  selector:
+    matchLabels:
+      app: local-volume-provisioner
+  template:
+    metadata:
+      labels:
+        app: local-volume-provisioner
+    spec:
+      serviceAccountName: local-storage-admin
+      containers:
+        - image: "quay.io/external_storage/local-volume-provisioner:v2.3.4"
+          name: provisioner
+          securityContext:
+            privileged: true
+          env:
+          - name: MY_NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: MY_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: JOB_CONTAINER_IMAGE
+            value: "quay.io/external_storage/local-volume-provisioner:v2.3.4"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
+          volumeMounts:
+            - mountPath: /etc/provisioner/config
+              name: provisioner-config
+              readOnly: true
+            - mountPath: $ZC_TIDB_STORE/ssd
+              name: local-ssd
+              mountPropagation: "HostToContainer"
+            - mountPath: $ZC_TIDB_STORE/sharedssd
+              name: local-sharedssd
+              mountPropagation: "HostToContainer"
+            - mountPath: $ZC_TIDB_STORE/backup
+              name: local-backup
+              mountPropagation: "HostToContainer"
+            - mountPath: $ZC_TIDB_STORE/monitoring
+              name: local-monitoring
+              mountPropagation: "HostToContainer"
+      volumes:
+        - name: provisioner-config
+          configMap:
+            name: local-provisioner-config
+        - name: local-ssd
+          hostPath:
+            path: $ZC_TIDB_STORE/ssd
+        - name: local-sharedssd
+          hostPath:
+            path: $ZC_TIDB_STORE/sharedssd
+        - name: local-backup
+          hostPath:
+            path: $ZC_TIDB_STORE/backup
+        - name: local-monitoring
+          hostPath:
+            path: $ZC_TIDB_STORE/monitoring

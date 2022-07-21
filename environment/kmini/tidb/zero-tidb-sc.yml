@@ -1,58 +1,64 @@
+# StorageClass                        zero-tidb-monitoring    监控数据
+#                                     zero-tidb-ssd           TiKV独占专用目录
+#                                     zero-tidb-shared-ssd    PD数据专用目录
+#                                     zero-tidb-backup        备份/还原专用
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: "monitoring-storage"
+  name: "zero-tidb-monitoring"
 provisioner: "kubernetes.io/no-provisioner"
 volumeBindingMode: "WaitForFirstConsumer"
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: "ssd-storage"
+  name: "zero-tidb-ssd"
 provisioner: "kubernetes.io/no-provisioner"
 volumeBindingMode: "WaitForFirstConsumer"
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: "shared-ssd-storage"
+  name: "zero-tidb-shared-ssd"
 provisioner: "kubernetes.io/no-provisioner"
 volumeBindingMode: "WaitForFirstConsumer"
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: "backup-storage"
+  name: "zero-tidb-backup"
 provisioner: "kubernetes.io/no-provisioner"
 volumeBindingMode: "WaitForFirstConsumer"
 ---
+# DaemonSet                       zero-cloud-tidb-provisioner
+# ConfigMap                       zero-cloud-tidb-configuration
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: local-provisioner-config
+  name: zero-cloud-tidb-configuration
   namespace: $ZC_TIDB_NS
 data:
   setPVOwnerRef: "true"
   nodeLabelsForPV: |
     - kubernetes.io/hostname
   storageClassMap: |
-    ssd-storage:
+    zero-tidb-ssd:
       hostDir: $ZC_TIDB_STORE/ssd
-      mountDir: $ZC_TIDB_STORE/ssd
-    shared-ssd-storage:
+      mountDir: $ZC_TIDB_MNT/ssd
+    zero-tidb-shared-ssd:
       hostDir: $ZC_TIDB_STORE/sharedssd
-      mountDir: $ZC_TIDB_STORE/sharedssd
-    monitoring-storage:
+      mountDir: $ZC_TIDB_MNT/sharedssd
+    zero-tidb-monitoring:
       hostDir: $ZC_TIDB_STORE/monitoring
-      mountDir: $ZC_TIDB_STORE/monitoring
-    backup-storage:
+      mountDir: $ZC_TIDB_MNT/monitoring
+    zero-tidb-backup:
       hostDir: $ZC_TIDB_STORE/backup
-      mountDir: $ZC_TIDB_STORE/backup
+      mountDir: $ZC_TIDB_MNT/backup
 ---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: local-volume-provisioner
+  name: zero-cloud-tidb-provisioner
   namespace: $ZC_TIDB_NS
   labels:
     app: local-volume-provisioner
@@ -65,7 +71,7 @@ spec:
       labels:
         app: local-volume-provisioner
     spec:
-      serviceAccountName: local-storage-admin
+      serviceAccountName: zero-cloud-tidb-admin
       containers:
         - image: "quay.io/external_storage/local-volume-provisioner:v2.3.4"
           name: provisioner
@@ -93,75 +99,32 @@ spec:
             - mountPath: /etc/provisioner/config
               name: provisioner-config
               readOnly: true
-            - mountPath: $ZC_TIDB_STORE/ssd
+            - mountPath: $ZC_TIDB_MNT/ssd
               name: local-ssd
               mountPropagation: "HostToContainer"
-            - mountPath: $ZC_TIDB_STORE/sharedssd
+            - mountPath: $ZC_TIDB_MNT/sharedssd
               name: local-sharedssd
               mountPropagation: "HostToContainer"
-            - mountPath: $ZC_TIDB_STORE/backup
+            - mountPath: $ZC_TIDB_MNT/backup
               name: local-backup
               mountPropagation: "HostToContainer"
-            - mountPath: $ZC_TIDB_STORE/monitoring
+            - mountPath: $ZC_TIDB_MNT/monitoring
               name: local-monitoring
               mountPropagation: "HostToContainer"
       volumes:
         - name: provisioner-config
           configMap:
-            name: local-provisioner-config
+            # Refer: zero-cloud-tidb-configuration
+            name: zero-cloud-tidb-configuration # local-provisioner-config
         - name: local-ssd
           hostPath:
-            path: $ZC_TIDB_STORE/ssd
+            path: $ZC_TIDB_STORE/database/tidb/ssd
         - name: local-sharedssd
           hostPath:
-            path: $ZC_TIDB_STORE/sharedssd
+            path: $ZC_TIDB_STORE/database/tidb/sharedssd
         - name: local-backup
           hostPath:
-            path: $ZC_TIDB_STORE/backup
+            path: $ZC_TIDB_STORE/database/tidb/backup
         - name: local-monitoring
           hostPath:
-            path: $ZC_TIDB_STORE/monitoring
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: local-storage-admin
-  namespace: $ZC_TIDB_NS
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: local-storage-provisioner-pv-binding
-  namespace: $ZC_TIDB_NS
-subjects:
-- kind: ServiceAccount
-  name: local-storage-admin
-  namespace: $ZC_TIDB_NS
-roleRef:
-  kind: ClusterRole
-  name: system:persistent-volume-provisioner
-  apiGroup: rbac.authorization.k8s.io
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: local-storage-provisioner-node-clusterrole
-  namespace: $ZC_TIDB_NS
-rules:
-- apiGroups: [""]
-  resources: ["nodes"]
-  verbs: ["get"]
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: local-storage-provisioner-node-binding
-  namespace: $ZC_TIDB_NS
-subjects:
-- kind: ServiceAccount
-  name: local-storage-admin
-  namespace: $ZC_TIDB_NS
-roleRef:
-  kind: ClusterRole
-  name: local-storage-provisioner-node-clusterrole
-  apiGroup: rbac.authorization.k8s.io
+            path: $ZC_TIDB_STORE/database/tidb/monitoring

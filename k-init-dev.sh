@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+source .env.development
 mkdir -p deployment/
 cp -rf environment/$ZA_ENV/* deployment/
 chmod +x deployment/*/*
