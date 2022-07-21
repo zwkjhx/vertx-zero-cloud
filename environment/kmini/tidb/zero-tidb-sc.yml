@@ -61,19 +61,19 @@ metadata:
   name: zero-cloud-tidb-provisioner
   namespace: $ZC_TIDB_NS
   labels:
-    app: local-volume-provisioner
+    app: zero-cloud-tidb-provisioner
 spec:
   selector:
     matchLabels:
-      app: local-volume-provisioner
+      app: zero-cloud-tidb-provisioner
   template:
     metadata:
       labels:
-        app: local-volume-provisioner
+        app: zero-cloud-tidb-provisioner
     spec:
       serviceAccountName: zero-cloud-tidb-admin
       containers:
-        - image: "quay.io/external_storage/local-volume-provisioner:v2.3.4"
+        - image: "quay.io/external_storage/local-volume-provisioner:v2.5.0"
           name: provisioner
           securityContext:
             privileged: true
@@ -87,7 +87,7 @@ spec:
               fieldRef:
                 fieldPath: metadata.namespace
           - name: JOB_CONTAINER_IMAGE
-            value: "quay.io/external_storage/local-volume-provisioner:v2.3.4"
+            value: "quay.io/external_storage/local-volume-provisioner:v2.5.0"
           resources:
             requests:
               cpu: 100m
@@ -100,31 +100,31 @@ spec:
               name: provisioner-config
               readOnly: true
             - mountPath: $ZC_TIDB_MNT/ssd
-              name: local-ssd
+              name: zero-tidb-ssd
               mountPropagation: "HostToContainer"
             - mountPath: $ZC_TIDB_MNT/sharedssd
-              name: local-sharedssd
+              name: zero-tidb-shared-ssd
               mountPropagation: "HostToContainer"
             - mountPath: $ZC_TIDB_MNT/backup
-              name: local-backup
+              name: zero-tidb-backup
               mountPropagation: "HostToContainer"
             - mountPath: $ZC_TIDB_MNT/monitoring
-              name: local-monitoring
+              name: zero-tidb-monitor
               mountPropagation: "HostToContainer"
       volumes:
         - name: provisioner-config
           configMap:
             # Refer: zero-cloud-tidb-configuration
             name: zero-cloud-tidb-configuration # local-provisioner-config
-        - name: local-ssd
+        - name: zero-tidb-ssd
           hostPath:
             path: $ZC_TIDB_STORE/database/tidb/ssd
-        - name: local-sharedssd
+        - name: zero-tidb-shared-ssd
           hostPath:
             path: $ZC_TIDB_STORE/database/tidb/sharedssd
-        - name: local-backup
+        - name: zero-tidb-backup
           hostPath:
             path: $ZC_TIDB_STORE/database/tidb/backup
-        - name: local-monitoring
+        - name: zero-tidb-monitor
           hostPath:
             path: $ZC_TIDB_STORE/database/tidb/monitoring

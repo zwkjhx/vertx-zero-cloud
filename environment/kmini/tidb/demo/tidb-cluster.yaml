@@ -4,9 +4,9 @@
 apiVersion: pingcap.com/v1alpha1
 kind: TidbCluster
 metadata:
-  name: $ZC_TIDB
+  name: basic
 spec:
-  version: latest             # 更新到最新的 TiDB 版本
+  version: v5.4.1
   timezone: UTC
   pvReclaimPolicy: Retain
   enableDynamicConfiguration: true
@@ -19,9 +19,9 @@ spec:
     maxFailoverCount: 0
     replicas: 1
     # if storageClassName is not set, the default Storage Class of the Kubernetes cluster will be used
-    storageClassName: zero-tidb-shared-ssd
+    # storageClassName: local-storage
     requests:
-      storage: "10Gi"
+      storage: "1Gi"
     config: {}
   tikv:
     baseImage: pingcap/tikv
@@ -32,9 +32,9 @@ spec:
     evictLeaderTimeout: 1m
     replicas: 1
     # if storageClassName is not set, the default Storage Class of the Kubernetes cluster will be used
-    storageClassName: zero-tidb-ssd
+    # storageClassName: local-storage
     requests:
-      storage: "10Gi"
+      storage: "1Gi"
     config:
       storage:
         # In basic examples, we set this to avoid using too much storage.

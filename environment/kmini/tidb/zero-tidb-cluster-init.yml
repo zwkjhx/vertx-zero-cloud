@@ -12,7 +12,7 @@ spec:
   initSql:
     # create database app;
     # initSqlConfigMap: tidb-initsql
-  passwordSecret: aeon-secret
+  passwordSecret: zero-tidb-secret
   # permitHost: 172.6.5.8
   # resources:
   #   limits:

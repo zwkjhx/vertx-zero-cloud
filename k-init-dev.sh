@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 source .env.development
 mkdir -p deployment/
+# rm -rf deployment/*
 cp -rf environment/$ZA_ENV/* deployment/
 chmod +x deployment/*/*
 echo "1. 测试验证环境处理完成！！"

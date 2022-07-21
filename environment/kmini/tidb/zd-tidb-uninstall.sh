@@ -4,3 +4,5 @@ source ../../.env.development
 ./ko-tidb-role.sh
 # 2. 删除 PVC / StorageClass
 ./ko-tidb-sc.sh
+# 3. 删除 Cluster
+./ko-tidb-cluster.sh

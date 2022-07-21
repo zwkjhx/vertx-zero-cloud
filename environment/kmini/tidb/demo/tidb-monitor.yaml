@@ -1,14 +1,11 @@
 apiVersion: pingcap.com/v1alpha1
 kind: TidbMonitor
 metadata:
-  name: $ZC_TIDB-monitor
+  name: basic
 spec:
   replicas: 1
   clusters:
-  - name: $ZC_TIDB
-  persistent: true
-  storageClassName: zero-tidb-monitoring
-  storage: 5G
+  - name: basic
   prometheus:
     baseImage: prom/prometheus
     version: v2.27.1
