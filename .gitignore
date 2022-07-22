@@ -34,5 +34,5 @@ file-uploads
 .markeditor
 configs
 zero-tree.txt
-development/istio/*
+development/*/*
 deployment

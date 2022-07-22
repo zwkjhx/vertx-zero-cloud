@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-kubectl create secret generic zero-tidb-secret --from-literal=root=pl,okmijn123 --namespace=$ZC_TIDB_NS
-kubectl -n $ZC_TIDB_NS apply -f zero-tidb-cluster-init.yml
+kubectl create secret generic zero-tidb-secret --from-literal=root=pl,okmijn123 --namespace=$ZC_TIDB
+kubectl -n $ZC_TIDB apply -f zero-tidb-cluster-init.yml

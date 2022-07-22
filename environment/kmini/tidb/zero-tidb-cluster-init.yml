@@ -2,13 +2,13 @@ apiVersion: pingcap.com/v1alpha1
 kind: TidbInitializer
 metadata:
   name: $ZC_TIDB-initializer
-  namespace: $ZC_TIDB_NS
+  namespace: $ZC_TIDB
 spec:
   image: tnir/mysqlclient
   # imagePullPolicy: IfNotPresent
   cluster:
     name: $ZC_TIDB
-    namespace: $ZC_TIDB_NS
+    namespace: $ZC_TIDB
   initSql:
     # create database app;
     # initSqlConfigMap: tidb-initsql
