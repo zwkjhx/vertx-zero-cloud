@@ -7,7 +7,7 @@ spec:
   clusters:
   - name: $ZC_TIDB
   persistent: true
-  storageClassName: zero-tidb-monitoring
+  storageClassName: zero-cloud-tidb
   storage: 5G
   prometheus:
     baseImage: prom/prometheus

@@ -5,3 +5,4 @@ source ../../.env.development
 ./ko-tidb-store.sh
 # 3. 删除 Cluster
 ./ko-tidb-cluster.sh
+./ko-tidb-cluster-init.sh
