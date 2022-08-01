@@ -73,6 +73,8 @@ mkdir -p kidd
 echo "生产环境" > kidd/README.txt
 mkdir -p kinect
 echo "开发环境" > kidd/README.txt
+mkdir -p kmeta
+echo "EMF建模" > kmeta/README.txt
 
 # 发布专用（删除原始内容，重建）
 mkdir -p deployment

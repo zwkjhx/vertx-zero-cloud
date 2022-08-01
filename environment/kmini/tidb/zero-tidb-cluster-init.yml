@@ -9,7 +9,9 @@ spec:
   cluster:
     name: $ZC_TIDB
     namespace: $ZC_TIDB
-  initSql:
+  initSql: |
+    # 初始化数据库
+    CREATE DATABASE $ZK_DB;
     # create database app;
     # initSqlConfigMap: tidb-initsql
   passwordSecret: zero-tidb-secret
