@@ -39,6 +39,8 @@ cp -rf development/vertx-zero-cloud/platform/$ZA_LANG/kinect/* kinect/
 chmod +x kinect/*
 cp -rf development/vertx-zero-cloud/platform/$ZA_LANG/kzero/* kzero/
 chmod +x kzero/*
+cp -rf development/vertx-zero-cloud/platform/$ZA_LANG/kmeta/* kmeta/
+chmod +x kmeta/*
 echo "2.4. 运行环境配置完成！！"
 # 删除
 rm -rf development/vertx-zero-cloud
